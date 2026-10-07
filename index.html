@@ -25,19 +25,19 @@
       z-index: 1; pointer-events: none;
     }
 
-    /* Unified Viewport */
+    /* Screen Viewport */
     .app-viewport {
       position: relative; z-index: 2;
       width: 100%; height: 100dvh;
       display: flex; flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      padding: clamp(6px, 1.5vh, 16px) 10px 8px;
+      padding: clamp(8px, 1.8vh, 16px) 12px 10px;
       text-align: center;
     }
 
     .title {
-      font-size: clamp(15px, 4vw, 24px);
+      font-size: clamp(16px, 4vw, 24px);
       font-style: italic; font-weight: 600;
       color: #a8421e;
       text-shadow: 0 1px 4px rgba(255,255,255,0.8);
@@ -45,27 +45,30 @@
       flex-shrink: 0;
     }
 
-    /* Pushpita Stage with 23 and 24 Flowers */
+    /* Desktop/Default: 23, Pushpita, 24 Side by Side */
     .stage-center {
       position: relative;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: clamp(4px, 2vw, 18px);
+      gap: clamp(8px, 2.5vw, 24px);
       width: 100%;
-      max-width: 440px;
+      max-width: 480px;
       margin: auto 0;
       flex-shrink: 1;
+    }
+
+    .flower-row-wrapper {
+      display: contents; /* Desktop-e normal row bhabei thakbe */
     }
 
     .flower-side {
       display: flex; flex-direction: column; align-items: center;
       flex: 1;
-      max-width: clamp(55px, 16vw, 90px);
+      max-width: clamp(55px, 16vw, 85px);
     }
     .flower-svg { width: 100%; height: auto; }
 
-    /* Flower Bubbles (Always Visible on Mobile & Desktop) */
     .bubble {
       background: rgba(255, 255, 255, 0.95);
       padding: 3px 6px;
@@ -76,7 +79,6 @@
       border: 1px solid #ffcc80;
       margin-bottom: 4px;
       white-space: nowrap;
-      display: block !important;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
     .bubble-sad { color: #6d4c41; border-color: #bcaaa4; }
@@ -87,7 +89,7 @@
       flex-direction: column;
       align-items: center;
       flex: 1.6;
-      max-width: clamp(110px, 30vw, 155px);
+      max-width: clamp(110px, 30vw, 150px);
     }
 
     .pushpita-img {
@@ -110,18 +112,18 @@
       border: 1.5px solid #ffb300;
       color: #bf360c;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: 4px 9px;
-      border-radius: 12px;
+      padding: 4px 10px;
+      border-radius: 13px;
       font-size: clamp(9px, 2.3vw, 12px);
       font-weight: 700;
       margin-bottom: 5px;
       box-shadow: 0 4px 10px rgba(230, 81, 0, 0.15);
-      min-height: 24px;
+      min-height: 26px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      max-width: 140px;
+      max-width: 145px;
       line-height: 1.25;
       transition: all 0.25s ease;
       opacity: 0;
@@ -137,7 +139,7 @@
       border-top: 5px solid #ffffff;
     }
 
-    /* Countdown Grid in Center Between Pushpita & Arnab */
+    /* Countdown Grid in Center */
     .countdown-grid {
       display: flex;
       justify-content: center;
@@ -176,7 +178,7 @@
       font-weight: 600;
     }
 
-    /* Bottom Section: Arnab Left + Footer Safe */
+    /* Arnab & Footer */
     .bottom-zone {
       width: 100%;
       max-width: 440px;
@@ -184,7 +186,6 @@
       flex-direction: column;
       align-items: flex-start;
       flex-shrink: 0;
-      margin-bottom: 2px;
     }
 
     .arnab-container {
@@ -257,6 +258,30 @@
     @keyframes happyBounce { 0% { transform: translateY(0) rotate(2deg); } 100% { transform: translateY(-4px) rotate(-2deg); } }
     .waving-arm-24 { transform-origin: 36px 12px; animation: waveBye 1s ease-in-out infinite alternate; }
     @keyframes waveBye { 0% { transform: rotate(-10deg); } 100% { transform: rotate(30deg); } }
+
+    /* MOBILE EXCLUSIVE RESPONSIVE RULE */
+    @media (max-width: 600px) {
+      .stage-center {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .pushpita-box {
+        max-width: 135px;
+      }
+      /* 23 ar 24 ke Pushpita-r niche pasapasi rakhar container */
+      .flower-row-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 25px;
+        width: 100%;
+      }
+      .flower-side {
+        max-width: 65px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -266,81 +291,84 @@
   <div class="app-viewport">
     <h1 class="title">🌻 Counting Down to Pushpita's Special Day 🌻</h1>
 
-    <!-- Pushpita & Flowers -->
+    <!-- Pushpita & Flowers Stage -->
     <div class="stage-center">
-      <!-- 23 Sunflower -->
-      <div class="flower-side flower-23">
-        <div class="bubble bubble-sad">যেতে চাই না... 🥺</div>
-        <svg class="flower-svg" viewBox="0 0 180 180">
-          <g transform="translate(90,90)">
-            <g fill="#ffa000" opacity="0.85">
-              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(0)" />
-              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(45)" />
-              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(90)" />
-              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(135)" />
-              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(180)" />
-              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(225)" />
-              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(270)" />
-              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(315)" />
-            </g>
-            <g fill="#ffca28">
-              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(22)" />
-              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(67)" />
-              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(112)" />
-              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(157)" />
-              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(202)" />
-              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(247)" />
-              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(292)" />
-              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(337)" />
-            </g>
-            <circle r="36" fill="#4e2619" stroke="#ffb300" stroke-width="2" />
-            <ellipse cx="-13" cy="-14" rx="3.5" ry="5" fill="#ffffff" />
-            <circle cx="-13" cy="-13" r="2.2" fill="#212121" />
-            <ellipse cx="13" cy="-14" rx="3.5" ry="5" fill="#ffffff" />
-            <circle cx="13" cy="-13" r="2.2" fill="#212121" />
-            <path d="M-19,-21 Q-13,-24 -7,-20" fill="none" stroke="#ffe082" stroke-width="1.6" stroke-linecap="round" />
-            <path d="M7,-20 Q13,-24 19,-21" fill="none" stroke="#ffe082" stroke-width="1.6" stroke-linecap="round" />
-            <path d="M-7,-4 Q0,-9 7,-4" fill="none" stroke="#ffe082" stroke-width="2" stroke-linecap="round" />
-            <text y="24" text-anchor="middle" font-family="'Fraunces', serif" font-weight="900" font-size="25" fill="#ffd54f">23</text>
-          </g>
-        </svg>
-      </div>
-
-      <!-- Pushpita Center -->
+      <!-- Pushpita Top (Mobile-e upore thakbe) -->
       <div class="pushpita-box">
         <div class="char-bubble" id="pushpitaBubble">...</div>
         <div class="pushpita-glow"></div>
         <img src="media/pushpita-character.png" alt="Pushpita" class="pushpita-img" id="pushpitaImg" />
       </div>
 
-      <!-- 24 Sunflower -->
-      <div class="flower-side flower-24">
-        <div class="bubble">বিদায় ২৩! 👋✨</div>
-        <svg class="flower-svg" viewBox="0 0 180 180">
-          <g transform="translate(90,90)">
-            <g class="waving-arm-24">
-              <path d="M36,12 C55,10 72,-5 68,-32" fill="none" stroke="#388e3c" stroke-width="7" stroke-linecap="round" />
-              <ellipse cx="68" cy="-35" rx="9" ry="14" fill="#4caf50" transform="rotate(20 68 -35)" />
+      <!-- 23 & 24 Flowers (Mobile-e Pushpita-r niche pasapasi ashbe) -->
+      <div class="flower-row-wrapper">
+        <!-- 23 Flower -->
+        <div class="flower-side flower-23">
+          <div class="bubble bubble-sad">যেতে চাই না... 🥺</div>
+          <svg class="flower-svg" viewBox="0 0 180 180">
+            <g transform="translate(90,90)">
+              <g fill="#ffa000" opacity="0.85">
+                <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(0)" />
+                <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(45)" />
+                <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(90)" />
+                <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(135)" />
+                <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(180)" />
+                <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(225)" />
+                <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(270)" />
+                <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(315)" />
+              </g>
+              <g fill="#ffca28">
+                <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(22)" />
+                <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(67)" />
+                <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(112)" />
+                <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(157)" />
+                <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(202)" />
+                <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(247)" />
+                <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(292)" />
+                <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(337)" />
+              </g>
+              <circle r="36" fill="#4e2619" stroke="#ffb300" stroke-width="2" />
+              <ellipse cx="-13" cy="-14" rx="3.5" ry="5" fill="#ffffff" />
+              <circle cx="-13" cy="-13" r="2.2" fill="#212121" />
+              <ellipse cx="13" cy="-14" rx="3.5" ry="5" fill="#ffffff" />
+              <circle cx="13" cy="-13" r="2.2" fill="#212121" />
+              <path d="M-19,-21 Q-13,-24 -7,-20" fill="none" stroke="#ffe082" stroke-width="1.6" stroke-linecap="round" />
+              <path d="M7,-20 Q13,-24 19,-21" fill="none" stroke="#ffe082" stroke-width="1.6" stroke-linecap="round" />
+              <path d="M-7,-4 Q0,-9 7,-4" fill="none" stroke="#ffe082" stroke-width="2" stroke-linecap="round" />
+              <text y="24" text-anchor="middle" font-family="'Fraunces', serif" font-weight="900" font-size="25" fill="#ffd54f">23</text>
             </g>
-            <g fill="#ffb300">
-              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(0)" />
-              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(45)" />
-              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(90)" />
-              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(135)" />
-              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(180)" />
-              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(225)" />
-              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(270)" />
-              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(315)" />
+          </svg>
+        </div>
+
+        <!-- 24 Flower -->
+        <div class="flower-side flower-24">
+          <div class="bubble">বিদায় ২৩! 👋✨</div>
+          <svg class="flower-svg" viewBox="0 0 180 180">
+            <g transform="translate(90,90)">
+              <g class="waving-arm-24">
+                <path d="M36,12 C55,10 72,-5 68,-32" fill="none" stroke="#388e3c" stroke-width="7" stroke-linecap="round" />
+                <ellipse cx="68" cy="-35" rx="9" ry="14" fill="#4caf50" transform="rotate(20 68 -35)" />
+              </g>
+              <g fill="#ffb300">
+                <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(0)" />
+                <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(45)" />
+                <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(90)" />
+                <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(135)" />
+                <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(180)" />
+                <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(225)" />
+                <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(270)" />
+                <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(315)" />
+              </g>
+              <circle r="36" fill="#3e1f14" stroke="#fff9c4" stroke-width="2.5" />
+              <path d="M-17,-13 Q-12,-19 -7,-13" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
+              <path d="M7,-13 Q12,-19 17,-13" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
+              <path d="M-9,-6 Q0,3 9,-6" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
+              <circle cx="-14" cy="-5" r="3" fill="#ff7043" opacity="0.75" />
+              <circle cx="14" cy="-5" r="3" fill="#ff7043" opacity="0.75" />
+              <text y="24" text-anchor="middle" font-family="'Fraunces', serif" font-weight="900" font-size="25" fill="#fff59d">24</text>
             </g>
-            <circle r="36" fill="#3e1f14" stroke="#fff9c4" stroke-width="2.5" />
-            <path d="M-17,-13 Q-12,-19 -7,-13" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
-            <path d="M7,-13 Q12,-19 17,-13" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
-            <path d="M-9,-6 Q0,3 9,-6" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
-            <circle cx="-14" cy="-5" r="3" fill="#ff7043" opacity="0.75" />
-            <circle cx="14" cy="-5" r="3" fill="#ff7043" opacity="0.75" />
-            <text y="24" text-anchor="middle" font-family="'Fraunces', serif" font-weight="900" font-size="25" fill="#fff59d">24</text>
-          </g>
-        </svg>
+          </svg>
+        </div>
       </div>
     </div>
 
