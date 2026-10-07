@@ -25,14 +25,14 @@
       z-index: 1; pointer-events: none;
     }
 
-    /* Screen Wrap - Full Fit Without Any Page Scroll */
+    /* Screen Viewport */
     .app-viewport {
       position: relative; z-index: 2;
       width: 100%; height: 100dvh;
       display: flex; flex-direction: column;
-      justify-content: space-between;
       align-items: center;
-      padding: clamp(10px, 2vh, 20px) 12px 10px;
+      justify-content: space-between;
+      padding: clamp(10px, 2vh, 18px) 14px 10px;
       text-align: center;
     }
 
@@ -45,34 +45,33 @@
       flex-shrink: 0;
     }
 
-    /* Central Character Stage */
+    /* 1. Pushpita Trio Stage (Top Center) */
     .stage-center {
       position: relative;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: clamp(6px, 2vw, 20px);
+      gap: clamp(8px, 2.5vw, 24px);
       width: 100%;
-      max-width: 480px;
-      margin: auto 0;
+      max-width: 420px;
+      margin: 5px auto;
       flex-shrink: 1;
     }
 
     .flower-side {
       display: flex; flex-direction: column; align-items: center;
       flex: 1;
-      max-width: clamp(55px, 15vw, 95px);
+      max-width: clamp(55px, 16vw, 85px);
     }
     .flower-svg { width: 100%; height: auto; }
 
-    /* Pushpita Box */
     .pushpita-box {
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       flex: 1.6;
-      max-width: clamp(115px, 32vw, 160px);
+      max-width: clamp(110px, 30vw, 150px);
     }
 
     .pushpita-img {
@@ -89,25 +88,24 @@
       border-radius: 50%; z-index: -1; filter: blur(12px);
     }
 
-    /* Pushpita Bubble */
     .char-bubble {
       position: relative;
       background: #ffffff;
       border: 1.5px solid #ffb300;
       color: #bf360c;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: clamp(10px, 2.5vw, 12px);
+      padding: 5px 11px;
+      border-radius: 14px;
+      font-size: clamp(10px, 2.4vw, 13px);
       font-weight: 700;
       margin-bottom: 6px;
       box-shadow: 0 4px 10px rgba(230, 81, 0, 0.15);
-      min-height: 26px;
+      min-height: 28px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      max-width: 130px;
+      max-width: 150px;
       line-height: 1.25;
       transition: all 0.25s ease;
       opacity: 0;
@@ -123,39 +121,68 @@
       border-top: 5px solid #ffffff;
     }
 
-    /* Bottom Control Bar: Left Arnab + Right Countdown */
-    .bottom-section {
-      width: 100%;
-      max-width: 520px;
+    /* 2. Countdown Grid (Thik Majhkhaner Boro Grid) */
+    .countdown-grid {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: clamp(6px, 2.2vw, 16px);
+      width: 100%;
+      max-width: 440px;
+      margin: 8px auto;
       flex-shrink: 0;
     }
 
-    .bottom-interactive-row {
-      width: 100%;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 8px;
+    .time-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      padding: clamp(8px, 1.6vh, 14px) clamp(6px, 1.8vw, 12px);
+      border-radius: 14px;
+      box-shadow: 0 8px 20px -4px rgba(150, 60, 20, 0.15);
+      flex: 1;
+      max-width: 90px;
+      min-width: 0;
+    }
+    .time-num {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 900;
+      font-size: clamp(22px, 5.5vw, 36px);
+      color: #bf360c;
+      line-height: 1;
+    }
+    .time-label {
+      font-size: clamp(9px, 2vw, 11px);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #795548;
+      margin-top: 4px;
+      font-weight: 600;
     }
 
-    /* Arnab Side Anchor */
-    .arnab-anchor {
+    /* 3. Niche Arnab & Footer */
+    .bottom-zone {
+      width: 100%;
+      max-width: 460px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      width: clamp(80px, 22vw, 115px);
+      position: relative;
       flex-shrink: 0;
+    }
+
+    .arnab-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: clamp(85px, 23vw, 120px);
+      margin-left: 5px;
       margin-bottom: -5px;
     }
 
     .arnab-img {
-      width: 100%;
-      height: auto;
-      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.2));
+      width: 100%; height: auto;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.22));
       animation: arnabFloat 3.8s ease-in-out infinite alternate;
     }
 
@@ -165,19 +192,20 @@
       border: 1.5px solid #0288d1;
       color: #01579b;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: clamp(9px, 2.3vw, 11px);
+      padding: 5px 10px;
+      border-radius: 13px;
+      font-size: clamp(10px, 2.4vw, 12px);
       font-weight: 700;
       margin-bottom: 5px;
-      box-shadow: 0 4px 10px rgba(2, 136, 209, 0.16);
-      min-height: 24px;
+      margin-left: 4px;
+      box-shadow: 0 4px 12px rgba(2, 136, 209, 0.18);
+      min-height: 26px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       text-align: left;
-      max-width: 110px;
-      line-height: 1.2;
+      max-width: 160px;
+      line-height: 1.25;
       transition: all 0.25s ease;
       opacity: 0;
       transform: scale(0.9);
@@ -192,48 +220,13 @@
       border-top: 5px solid #ffffff;
     }
 
-    /* Countdown Grid Inside Row */
-    .countdown-grid {
-      flex: 1;
-      display: flex;
-      justify-content: flex-end;
-      gap: clamp(4px, 1.2vw, 8px);
-      margin-bottom: 8px;
-    }
-
-    .time-card {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.95);
-      padding: clamp(6px, 1.2vh, 10px) clamp(4px, 1vw, 8px);
-      border-radius: 10px;
-      box-shadow: 0 6px 14px -3px rgba(150, 60, 20, 0.12);
-      flex: 1;
-      max-width: 60px;
-      min-width: 0;
-    }
-    .time-num {
-      font-family: 'Fraunces', Georgia, serif;
-      font-weight: 900;
-      font-size: clamp(16px, 4.4vw, 24px);
-      color: #bf360c;
-      line-height: 1;
-    }
-    .time-label {
-      font-size: clamp(8px, 1.6vw, 10px);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #795548;
-      margin-top: 2px;
-      font-weight: 600;
-    }
-
     .footer-note {
-      font-size: clamp(10px, 2.2vw, 13px);
+      font-size: clamp(11px, 2.4vw, 13px);
       font-style: italic;
       color: #6d4c41;
-      margin-top: 2px;
+      width: 100%;
+      text-align: center;
+      margin-top: 4px;
     }
 
     /* Animations */
@@ -257,7 +250,7 @@
   <div class="app-viewport">
     <h1 class="title">🌻 Counting Down to Pushpita's Special Day 🌻</h1>
 
-    <!-- Center Mascot Trio Stage -->
+    <!-- 1. Pushpita & Flowers -->
     <div class="stage-center">
       <!-- 23 Sunflower -->
       <div class="flower-side flower-23">
@@ -300,7 +293,7 @@
       <div class="pushpita-box">
         <div class="char-bubble" id="pushpitaBubble">...</div>
         <div class="pushpita-glow"></div>
-        <img src="media/pushpita-character.png" alt="Pushpita" class="pushpita-img" id="pushpitaImg" />
+        <img src="./pushpita-character.png" alt="Pushpita" class="pushpita-img" id="pushpitaImg" />
       </div>
 
       <!-- 24 Sunflower -->
@@ -333,31 +326,27 @@
       </div>
     </div>
 
-    <!-- Bottom Section: Arnab (Left) + Countdown (Right) in One Row -->
-    <div class="bottom-section">
-      <div class="bottom-interactive-row">
-        <!-- Arnab Mascot Left -->
-        <div class="arnab-anchor">
-          <div class="arnab-bubble" id="arnabBubble">...</div>
-          <img src="media/arnab-character.png" alt="Arnab" class="arnab-img" id="arnabImg" />
-        </div>
+    <!-- 2. Countdown Grid (Dujoner Thik Majhe) -->
+    <div class="countdown-grid">
+      <div class="time-card"><div class="time-num" id="d">00</div><div class="time-label">Days</div></div>
+      <div class="time-card"><div class="time-num" id="h">00</div><div class="time-label">Hours</div></div>
+      <div class="time-card"><div class="time-num" id="m">00</div><div class="time-label">Mins</div></div>
+      <div class="time-card"><div class="time-num" id="s">00</div><div class="time-label">Secs</div></div>
+    </div>
 
-        <!-- Countdown Right -->
-        <div class="countdown-grid">
-          <div class="time-card"><div class="time-num" id="d">00</div><div class="time-label">Days</div></div>
-          <div class="time-card"><div class="time-num" id="h">00</div><div class="time-label">Hours</div></div>
-          <div class="time-card"><div class="time-num" id="m">00</div><div class="time-label">Mins</div></div>
-          <div class="time-card"><div class="time-num" id="s">00</div><div class="time-label">Secs</div></div>
-        </div>
+    <!-- 3. Arnab (Niche Bame) & Footer -->
+    <div class="bottom-zone">
+      <div class="arnab-container">
+        <div class="arnab-bubble" id="arnabBubble">...</div>
+        <img src="./arnab-character.png" alt="Arnab" class="arnab-img" id="arnabImg" />
       </div>
-
       <p class="footer-note">✦ The grand celebration begins on 14th October, 12:00 AM 🎂 ✦</p>
     </div>
   </div>
 
   <script type="module" src="./main.js"></script>
 
-  <!-- Clean Conversation Engine -->
+  <!-- Dual Character Conversation Engine -->
   <script>
     const conversation = [
       {
