@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Happy 24th Birthday Pushpita! 🌻✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Fraunces:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html {
+      width: 100%; min-height: 100%;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at center, #23120b 0%, #150904 60%, #080301 100%);
+      color: #fcebd9;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    #stageCanvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      z-index: 1; pointer-events: none;
+    }
+
+    .main-wrap {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+    }
+
+    /* Ambient Sunflower Glow Orb */
+    .glow-orb {
+      position: fixed; top: 20%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(255, 179, 0, 0.18) 0%, rgba(255, 112, 67, 0) 70%);
+      border-radius: 50%; z-index: 1; filter: blur(50px);
+      pointer-events: none;
+    }
+
+    .badge-top {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 183, 77, 0.4);
+      backdrop-filter: blur(12px);
+      padding: 6px 20px; border-radius: 30px;
+      font-size: 13px; font-weight: 600; color: #ffb74d;
+      box-shadow: 0 0 25px rgba(255, 179, 0, 0.2);
+      margin-bottom: 25px;
+      opacity: 0; transform: translateY(-20px);
+      transition: all 1.2s ease;
+    }
+    .badge-top.show { opacity: 1; transform: translateY(0); }
+
+    .hero-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(34px, 7.5vw, 60px);
+      font-weight: 900;
+      color: #ffe082;
+      line-height: 1.15;
+      text-shadow: 0 0 35px rgba(255, 160, 0, 0.6);
+      margin-bottom: 15px;
+      opacity: 0; transform: scale(0.9);
+      transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-title.show { opacity: 1; transform: scale(1); }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(19px, 4vw, 25px);
+      font-style: italic; color: #ffcc80;
+      margin-bottom: 45px;
+      opacity: 0; transition: all 1.2s ease;
+    }
+    .hero-sub.show { opacity: 1; }
+
+    /* Floating Bloom Sunflower Stage */
+    .bloom-stage {
+      position: relative;
+      width: 220px; height: 220px;
+      margin: 0 auto 35px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.4) rotate(-30deg);
+      transition: all 2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .bloom-stage.bloom {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      filter: drop-shadow(0 0 35px rgba(255, 179, 0, 0.55));
+    }
+
+    .sunflower-svg {
+      width: 100%; height: 100%;
+      animation: spinSlow 35s linear infinite;
+    }
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Core Pulsing Crown */
+    .core-sparkle {
+      position: absolute;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #5d2813 0%, #3e1607 100%);
+      border: 3px solid #ffca28;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fraunces', serif;
+      font-size: 32px; font-weight: 900; color: #ffe082;
+      box-shadow: 0 0 25px rgba(255, 193, 7, 0.7);
+      animation: pulseCore 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes pulseCore {
+      0% { transform: scale(0.96); box-shadow: 0 0 15px rgba(255, 193, 7, 0.5); }
+      100% { transform: scale(1.06); box-shadow: 0 0 35px rgba(255, 193, 7, 0.9); }
+    }
+
+    /* Polaroid Glass Frame */
+    .polaroid {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 14px 14px 28px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 179, 0, 0.2);
+      border-radius: 10px;
+      transform: translateY(40px) rotate(0deg);
+      opacity: 0;
+      transition: all 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      width: 260px; margin: 0 auto 40px;
+    }
+    .polaroid.show {
+      opacity: 1;
+      transform: translateY(0) rotate(-3.5deg);
+    }
+    .polaroid-img {
+      width: 100%; height: 240px;
+      border-radius: 6px;
+      background: #f7ede2;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 55px; color: #ffb300;
+    }
+    .polaroid-caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 600;
+      color: #3e1f14; margin-top: 14px; font-size: 19px;
+    }
+
+    /* Golden Glassmorphism Wish Card */
+    .wish-letter {
+      background: rgba(35, 18, 11, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 202, 40, 0.35);
+      border-radius: 24px;
+      padding: clamp(26px, 5vw, 48px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(255, 179, 0, 0.08);
+      text-align: left;
+      position: relative;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1.4s ease-out;
+      margin-bottom: 50px;
+    }
+    .wish-letter.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .letter-header {
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px dashed rgba(255, 202, 40, 0.3);
+      padding-bottom: 16px; margin-bottom: 22px;
+    }
+    .letter-header h3 {
+      font-family: 'Fraunces', serif;
+      color: #ffd54f; font-size: 26px;
+      letter-spacing: 0.02em;
+    }
+    .sun-icon { font-size: 30px; animation: bounceSun 2s infinite ease-in-out; }
+    @keyframes bounceSun {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .letter-body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(19px, 3.2vw, 22px);
+      line-height: 1.85; color: #ffecb3;
+      min-height: 150px;
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px; height: 22px;
+      background: #ffd54f;
+      margin-left: 4px;
+      animation: blink 0.8s infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb"></div>
+  <canvas id="stageCanvas"></canvas>
+
+  <div class="main-wrap">
+    <div class="badge-top" id="badgeTop">✨ 14th October Grand Celebration ✨</div>
+    <h1 class="hero-title" id="heroTitle">Happy 24th Birthday,<br/>Pushpita! 🌻</h1>
+    <p class="hero-sub" id="heroSub">May your life always blossom with boundless light & warmth.</p>
+
+    <!-- Morphing Blooming Sunflower -->
+    <div class="bloom-stage" id="bloomStage">
+      <svg class="sunflower-svg" viewBox="0 0 200 200">
+        <defs>
+          <radialGradient id="petalGrad" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#fff59d" />
+            <stop offset="50%" stop-color="#ffb300" />
+            <stop offset="100%" stop-color="#ff6f00" />
+          </radialGradient>
+        </defs>
+        <g transform="translate(100,100)">
+          <!-- Double Layer 24 Petals -->
+          <g fill="url(#petalGrad)">
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(0)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(15)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(30)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(45)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(60)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(75)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(90)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(105)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(120)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(135)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(150)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(165)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(180)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(195)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(210)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(225)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(240)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(255)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(270)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(285)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(300)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(315)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(330)" />
+            <path d="M0,-85 Q14,-45 0,-18 Q-14,-45 0,-85" transform="rotate(345)" />
+          </g>
+        </g>
+      </svg>
+      <div class="core-sparkle">24</div>
+    </div>
+
+    <!-- Polaroid Glass Frame -->
+    <div class="polaroid" id="polaroidBox">
+      <div class="polaroid-img">🌻</div>
+      <div class="polaroid-caption">Forever 24 & Glowing ✨</div>
+    </div>
+
+    <!-- Typewriter Wish Letter -->
+    <div class="wish-letter" id="wishLetter">
+      <div class="letter-header">
+        <h3>Dear Pushpita,</h3>
+        <span class="sun-icon">🌻</span>
+      </div>
+      <div class="letter-body">
+        <span id="typedText"></span><span class="cursor" id="cursor"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Cinematic Auto Orchestration
+    const fullMessage = "Tor 24 tomo jonmodine onek onek bhalobasha aar shuvokamona! 🎂\n\nSurjomukhir motoi tor jibon shob somoy aalo, anondo aar mishti hashi te bhore thakuk. Tui ja chayesh, tor shob shopno jeno shotti hoy. Jiboner protita notun padakshepe tui shob shomoy unnoti kor, shustho thak aar eibhabei shobar mukh-e hashi fotiye rakh!\n\nHave a magical and unforgettable year ahead! ✨💛";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const badge = document.getElementById('badgeTop');
+      const title = document.getElementById('heroTitle');
+      const sub = document.getElementById('heroSub');
+      const bloom = document.getElementById('bloomStage');
+      const polaroid = document.getElementById('polaroidBox');
+      const letter = document.getElementById('wishLetter');
+      const typedText = document.getElementById('typedText');
+      const cursor = document.getElementById('cursor');
+
+      // 0.8s: Badge & Title
+      setTimeout(() => { badge.classList.add('show'); }, 800);
+      setTimeout(() => { title.classList.add('show'); sub.classList.add('show'); }, 1400);
+
+      // 2.2s: Magical Blooming Sunflower & Firework Blast
+      setTimeout(() => {
+        bloom.classList.add('bloom');
+
+        // Golden Sunflower Fireworks Blast
+        confetti({
+          particleCount: 90,
+          spread: 80,
+          origin: { y: 0.45 },
+          colors: ['#ffe082', '#ffb300', '#ff6f00', '#ffd54f']
+        });
+      }, 2200);
+
+      // 4.0s: Polaroid Entrance
+      setTimeout(() => { polaroid.classList.add('show'); }, 4000);
+
+      // 5.4s: Wish Letter Entrance & Smooth Scroll
+      setTimeout(() => {
+        letter.classList.add('show');
+        letter.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Continuous Subtle Sparkle Rain
+        const end = Date.now() + (5 * 1000);
+        (function frame() {
+          confetti({
+            particleCount: 2,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#ffe082', '#ffb300']
+          });
+          confetti({
+            particleCount: 2,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#ffe082', '#ffb300']
+          });
+          if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+
+        // Typewriter Effect Trigger
+        let i = 0;
+        function typeWriter() {
+          if (i < fullMessage.length) {
+            const char = fullMessage.charAt(i);
+            typedText.innerHTML += (char === '\n') ? '<br/>' : char;
+            i++;
+            setTimeout(typeWriter, 32);
+          } else {
+            cursor.style.display = 'none';
+          }
+        }
+        setTimeout(typeWriter, 600);
+      }, 5400);
+    });
+
+    /* --- Interactive Glowing Particle & Firefly Engine --- */
+    const canvas = document.getElementById('stageCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const particles = [];
+    for(let i=0; i<45; i++){
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 1.5 + Math.random() * 2.8,
+        vy: -0.4 - Math.random() * 0.8,
+        vx: (Math.random() - 0.5) * 0.6,
+        alpha: Math.random() * 0.8 + 0.2,
+        decay: 0.008 + Math.random() * 0.015
+      });
+    }
+
+    function renderStage() {
+      ctx.clearRect(0, 0, W, H);
+      for(const p of particles){
+        p.y += p.vy;
+        p.x += p.vx;
+        p.alpha += Math.sin(Date.now() * 0.003) * 0.01;
+
+        if(p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 202, 40, ${Math.max(0.1, Math.min(1, p.alpha))})`;
+        ctx.shadowColor = '#ffb300';
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.restore();
+      }
+      requestAnimationFrame(renderStage);
+    }
+    renderStage();
+  </script>
+</body>
+</html>

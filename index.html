@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>The Countdown to 24 🌻</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Fraunces:wght@700;900&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html {
+      width: 100%; height: 100%;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: radial-gradient(circle at center, #fff9f0 0%, #fde7cb 60%, #f7cda4 100%);
+      color: #4a261b;
+      user-select: none;
+    }
+
+    #rainCanvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      z-index: 1; pointer-events: none;
+    }
+
+    .container {
+      position: relative; z-index: 2;
+      width: 100%; min-height: 100dvh;
+      display: flex; flex-direction: column;
+      justify-content: space-between; align-items: center;
+      padding: clamp(12px, 2.5vh, 24px) 12px 140px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: clamp(17px, 4.2vw, 30px);
+      font-style: italic; font-weight: 600;
+      color: #a8421e;
+      text-shadow: 0 1px 4px rgba(255,255,255,0.8);
+      max-width: 95%;
+      line-height: 1.25;
+      margin-top: 5px;
+    }
+
+    /* Trio Display: 23, Pushpita Mascot, 24 */
+    .sunflower-duo {
+      display: flex; align-items: flex-end; justify-content: center;
+      gap: clamp(4px, 2vw, 24px);
+      width: 100%;
+      max-width: 600px;
+      margin: auto 0;
+    }
+
+    .flower-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+      flex: 1;
+      max-width: clamp(65px, 18vw, 110px);
+    }
+
+    .flower-svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 6px 14px rgba(180, 80, 20, 0.2));
+    }
+
+    /* Pushpita Character Wrap */
+    .character-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 5;
+      flex: 1.4;
+      max-width: clamp(120px, 32vw, 175px);
+    }
+
+    .char-img {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 10px 20px rgba(180, 80, 20, 0.28));
+      animation: charFloat 3.5s ease-in-out infinite alternate;
+      transform-origin: center bottom;
+    }
+
+    .char-glow {
+      position: absolute;
+      bottom: 5px;
+      width: 85%;
+      aspect-ratio: 1/1;
+      background: radial-gradient(circle, rgba(255, 179, 0, 0.45) 0%, rgba(255, 112, 67, 0) 70%);
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(12px);
+    }
+
+    /* Speech Bubble (Pushpita) */
+    .char-bubble {
+      position: relative;
+      background: #ffffff;
+      border: 1.5px solid #ffb300;
+      color: #bf360c;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 5px 10px;
+      border-radius: 14px;
+      font-size: clamp(10px, 2.4vw, 13px);
+      font-weight: 700;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 12px rgba(230, 81, 0, 0.14);
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      white-space: normal;
+      width: max-content;
+      max-width: 140px;
+      line-height: 1.25;
+      transition: all 0.25s ease;
+      opacity: 0;
+    }
+    .char-bubble.active { opacity: 1; }
+
+    .char-bubble::after {
+      content: ''; position: absolute;
+      bottom: -5px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 5px solid transparent; border-right: 5px solid transparent;
+      border-top: 5px solid #ffffff;
+    }
+    .char-bubble::before {
+      content: ''; position: absolute;
+      bottom: -7px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 6px solid transparent; border-right: 6px solid transparent;
+      border-top: 6px solid #ffb300;
+    }
+
+    /* Arnab Character Mobile-Anchored */
+    .arnab-wrap {
+      position: fixed;
+      bottom: 0;
+      left: clamp(4px, 2vw, 25px);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      pointer-events: none;
+      width: clamp(90px, 24vw, 150px);
+    }
+
+    .arnab-img {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.22));
+      animation: arnabFloat 3.8s ease-in-out infinite alternate;
+    }
+
+    .arnab-bubble {
+      position: relative;
+      background: #ffffff;
+      border: 1.5px solid #0288d1;
+      color: #01579b;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 5px 10px;
+      border-radius: 14px;
+      font-size: clamp(10px, 2.4vw, 13px);
+      font-weight: 700;
+      margin-bottom: 5px;
+      margin-left: 6px;
+      box-shadow: 0 4px 12px rgba(2, 136, 209, 0.18);
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+      white-space: normal;
+      width: max-content;
+      max-width: 150px;
+      line-height: 1.25;
+      transition: all 0.25s ease;
+      opacity: 0;
+    }
+    .arnab-bubble.active { opacity: 1; }
+
+    .arnab-bubble::after {
+      content: ''; position: absolute;
+      bottom: -5px; left: 16px;
+      width: 0; height: 0;
+      border-left: 5px solid transparent; border-right: 5px solid transparent;
+      border-top: 5px solid #ffffff;
+    }
+    .arnab-bubble::before {
+      content: ''; position: absolute;
+      bottom: -7px; left: 15px;
+      width: 0; height: 0;
+      border-left: 6px solid transparent; border-right: 6px solid transparent;
+      border-top: 6px solid #0288d1;
+    }
+
+    .char-talking {
+      animation: talkBounce 0.35s ease-in-out infinite alternate !important;
+    }
+    @keyframes talkBounce {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.04) translateY(-2px); }
+    }
+
+    @keyframes charFloat {
+      0% { transform: translateY(0) rotate(-0.5deg); }
+      100% { transform: translateY(-6px) rotate(0.8deg); }
+    }
+    @keyframes arnabFloat {
+      0% { transform: translateY(0) rotate(0.5deg); }
+      100% { transform: translateY(-5px) rotate(-0.8deg); }
+    }
+
+    /* Sunflower Animations */
+    .flower-23 { animation: sadFloat 3s ease-in-out infinite alternate; }
+    @keyframes sadFloat {
+      0% { transform: translateY(0) rotate(-2deg); }
+      100% { transform: translateY(4px) rotate(-4deg); }
+    }
+    .tear-drop { animation: tearFall 1.6s ease-in infinite; }
+    .tear-drop-2 { animation: tearFall 1.6s ease-in 0.8s infinite; }
+    @keyframes tearFall {
+      0% { transform: translateY(0) scale(0.6); opacity: 0; }
+      20% { opacity: 1; transform: translateY(3px) scale(1); }
+      80% { opacity: 0.9; transform: translateY(22px) scale(1.1); }
+      100% { opacity: 0; transform: translateY(28px) scale(0.3); }
+    }
+
+    .flower-24 { animation: happyBounce 2.5s ease-in-out infinite alternate; }
+    .glow-pulse { animation: pulseGlow 1.8s ease-in-out infinite alternate; }
+    @keyframes happyBounce {
+      0% { transform: translateY(0) rotate(2deg) scale(1.02); }
+      100% { transform: translateY(-6px) rotate(-2deg) scale(1.06); }
+    }
+    @keyframes pulseGlow {
+      0% { filter: drop-shadow(0 0 6px #ffb300); }
+      100% { filter: drop-shadow(0 0 16px #ff6f00); }
+    }
+    .waving-arm-24 {
+      transform-origin: 36px 12px;
+      animation: waveBye 1s ease-in-out infinite alternate;
+    }
+    @keyframes waveBye {
+      0% { transform: rotate(-10deg); }
+      100% { transform: rotate(30deg); }
+    }
+
+    .bubble {
+      background: rgba(255, 255, 255, 0.92);
+      padding: 3px 6px;
+      border-radius: 10px;
+      font-size: clamp(9px, 1.8vw, 11px);
+      font-weight: 700; color: #b73812;
+      border: 1px solid #ffcc80;
+      margin-bottom: 5px;
+      white-space: nowrap;
+    }
+    .bubble-sad { color: #6d4c41; border-color: #bcaaa4; }
+
+    /* Ultra Responsive Countdown Grid */
+    .countdown-grid {
+      display: flex; justify-content: center;
+      gap: clamp(5px, 1.8vw, 14px);
+      width: 100%; max-width: 440px;
+      margin: 10px 0;
+    }
+    .time-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      padding: clamp(6px, 1.4vh, 12px) clamp(4px, 1.2vw, 10px);
+      border-radius: clamp(10px, 2.2vw, 14px);
+      box-shadow: 0 8px 18px -4px rgba(150, 60, 20, 0.12);
+      flex: 1; min-width: 0;
+    }
+    .time-num {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 900;
+      font-size: clamp(19px, 5.2vw, 34px);
+      color: #bf360c; line-height: 1;
+    }
+    .time-label {
+      font-size: clamp(8px, 1.8vw, 11px);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #795548; margin-top: 3px; font-weight: 600;
+    }
+
+    .footer-note {
+      font-size: clamp(11px, 2.5vw, 14px);
+      font-style: italic; color: #6d4c41;
+      max-width: 92%;
+    }
+
+    /* Mobile Height & Width Safety Rules */
+    @media (max-width: 420px) {
+      .container { padding-bottom: 125px; }
+      .bubble { display: none; }
+      .arnab-bubble { max-width: 125px; }
+      .char-bubble { max-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="rainCanvas"></canvas>
+
+  <div class="container">
+    <h1 class="title">🌻 Counting Down to Pushpita's Special Day 🌻</h1>
+
+    <div class="sunflower-duo">
+      <!-- 23 Sunflower -->
+      <div class="flower-wrap flower-23">
+        <div class="bubble bubble-sad">Don't wanna go... 🥺</div>
+        <svg class="flower-svg" viewBox="0 0 180 180" style="overflow: visible;">
+          <g transform="translate(90,90)">
+            <g fill="#ffa000" opacity="0.85">
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(0)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(30)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(60)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(90)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(120)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(150)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(180)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(210)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(240)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(270)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(300)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(330)" />
+            </g>
+            <g fill="#ffca28">
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(15)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(45)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(75)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(105)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(135)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(165)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(195)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(225)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(255)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(285)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(315)" />
+              <path d="M0,-58 Q10,-30 0,-12 Q-10,-30 0,-58" transform="rotate(345)" />
+            </g>
+            <circle r="36" fill="#4e2619" stroke="#ffb300" stroke-width="2" />
+            <ellipse cx="-13" cy="-14" rx="3.5" ry="5" fill="#ffffff" />
+            <circle cx="-13" cy="-13" r="2.2" fill="#212121" />
+            <ellipse cx="13" cy="-14" rx="3.5" ry="5" fill="#ffffff" />
+            <circle cx="13" cy="-13" r="2.2" fill="#212121" />
+            <path d="M-19,-21 Q-13,-24 -7,-20" fill="none" stroke="#ffe082" stroke-width="1.6" stroke-linecap="round" />
+            <path d="M7,-20 Q13,-24 19,-21" fill="none" stroke="#ffe082" stroke-width="1.6" stroke-linecap="round" />
+            <path d="M-7,-4 Q0,-9 7,-4" fill="none" stroke="#ffe082" stroke-width="2" stroke-linecap="round" />
+            <path class="tear-drop" d="M-13,-8 Q-10,-3 -13,1 Q-16,-3 -13,-8 Z" fill="#29b6f6" />
+            <path class="tear-drop-2" d="M13,-8 Q16,-3 13,1 Q10,-3 13,-8 Z" fill="#29b6f6" />
+            <text y="24" text-anchor="middle" font-family="'Fraunces', serif" font-weight="900" font-size="25" fill="#ffd54f">23</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Pushpita 3D Avatar -->
+      <div class="character-wrap">
+        <div class="char-bubble" id="pushpitaBubble">...</div>
+        <div class="char-glow"></div>
+        <img src="media/pushpita-character.png" alt="Pushpita 3D Character" class="char-img" id="pushpitaImg" />
+      </div>
+
+      <!-- 24 Sunflower -->
+      <div class="flower-wrap flower-24">
+        <div class="bubble">Bye Bye 23! Hello 24! 👋✨</div>
+        <svg class="flower-svg glow-pulse" viewBox="0 0 180 180" style="overflow: visible;">
+          <g transform="translate(90,90)">
+            <g class="waving-arm-24">
+              <path d="M36,12 C55,10 72,-5 68,-32" fill="none" stroke="#388e3c" stroke-width="7" stroke-linecap="round" />
+              <ellipse cx="68" cy="-35" rx="9" ry="14" fill="#4caf50" transform="rotate(20 68 -35)" />
+              <ellipse cx="60" cy="-32" rx="4" ry="7" fill="#4caf50" transform="rotate(-35 60 -32)" />
+            </g>
+            <g fill="#ffb300">
+              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(22)" />
+              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(67)" />
+              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(112)" />
+              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(157)" />
+              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(202)" />
+              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(247)" />
+              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(292)" />
+              <path d="M0,-68 Q14,-35 0,-15 Q-14,-35 0,-68" transform="rotate(337)" />
+            </g>
+            <g fill="#ffd54f">
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(0)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(45)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(90)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(135)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(180)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(225)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(270)" />
+              <path d="M0,-65 Q12,-35 0,-15 Q-12,-35 0,-65" transform="rotate(315)" />
+            </g>
+            <circle r="36" fill="#3e1f14" stroke="#fff9c4" stroke-width="2.5" />
+            <path d="M-17,-13 Q-12,-19 -7,-13" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
+            <path d="M7,-13 Q12,-19 17,-13" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
+            <path d="M-9,-6 Q0,3 9,-6" fill="none" stroke="#fff59d" stroke-width="2.6" stroke-linecap="round" />
+            <circle cx="-14" cy="-5" r="3" fill="#ff7043" opacity="0.75" />
+            <circle cx="14" cy="-5" r="3" fill="#ff7043" opacity="0.75" />
+            <text y="24" text-anchor="middle" font-family="'Fraunces', serif" font-weight="900" font-size="25" fill="#fff59d">24</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Countdown Timer Cards -->
+    <div class="countdown-grid">
+      <div class="time-card"><div class="time-num" id="d">00</div><div class="time-label">Days</div></div>
+      <div class="time-card"><div class="time-num" id="h">00</div><div class="time-label">Hours</div></div>
+      <div class="time-card"><div class="time-num" id="m">00</div><div class="time-label">Mins</div></div>
+      <div class="time-card"><div class="time-num" id="s">00</div><div class="time-label">Secs</div></div>
+    </div>
+
+    <p class="footer-note">✦ The grand celebration begins on 14th October, 12:00 AM 🎂 ✦</p>
+  </div>
+
+  <!-- Arnab 3D Avatar (Bottom-Left) -->
+  <div class="arnab-wrap">
+    <div class="arnab-bubble" id="arnabBubble">...</div>
+    <img src="media/arnab-character.png" alt="Arnab 3D Character" class="arnab-img" id="arnabImg" />
+  </div>
+
+  <script type="module" src="./main.js"></script>
+
+  <!-- Dual Character Conversation Engine -->
+  <script>
+    const conversation = [
+      {
+        arnab: "তোর স্পেশাল দিন কিন্তু এসে গেল! 🌻✨",
+        pushpita: "হুম! ২৪ শুরু হতে আর বেশি বাকি নেই! 🙈"
+      },
+      {
+        arnab: "১৪ তারিখের জন্য কিন্তু এক্সাইটেড? 👀",
+        pushpita: "হ্যাঁ রে! কী সারপ্রাইজ রেডি করছিস বল তো? 🎈"
+      },
+      {
+        arnab: "আগে থেকে বললে সারপ্রাইজ কিসের! ⏳",
+        pushpita: "আচ্ছা বেশ! কাউন্টডাউনেই নজর রাখছি! 💛"
+      }
+    ];
+
+    let convIdx = 0;
+    const aBubble = document.getElementById('arnabBubble');
+    const pBubble = document.getElementById('pushpitaBubble');
+    const aImg = document.getElementById('arnabImg');
+    const pImg = document.getElementById('pushpitaImg');
+
+    function typeWriter(element, imgElement, text, speed, callback) {
+      element.textContent = "";
+      element.classList.add('active');
+      if (imgElement) imgElement.classList.add('char-talking');
+
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(timer);
+          if (imgElement) imgElement.classList.remove('char-talking');
+          if (callback) callback();
+        }
+      }, speed);
+    }
+
+    function runConversationStep() {
+      const step = conversation[convIdx];
+
+      typeWriter(aBubble, aImg, step.arnab, 38, () => {
+        setTimeout(() => {
+          typeWriter(pBubble, pImg, step.pushpita, 38, () => {
+            setTimeout(() => {
+              aBubble.classList.remove('active');
+              pBubble.classList.remove('active');
+
+              setTimeout(() => {
+                convIdx = (convIdx + 1) % conversation.length;
+                runConversationStep();
+              }, 400);
+            }, 3200);
+          });
+        }, 900);
+      });
+    }
+
+    setTimeout(runConversationStep, 1000);
+  </script>
+</body>
+</html>
