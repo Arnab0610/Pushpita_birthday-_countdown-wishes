@@ -25,19 +25,19 @@
       z-index: 1; pointer-events: none;
     }
 
-    /* Screen Wrap */
+    /* Unified Viewport */
     .app-viewport {
       position: relative; z-index: 2;
       width: 100%; height: 100dvh;
       display: flex; flex-direction: column;
-      align-items: center;
       justify-content: space-between;
-      padding: clamp(10px, 2.5vh, 25px) 15px 12px;
+      align-items: center;
+      padding: clamp(6px, 1.5vh, 16px) 10px 8px;
       text-align: center;
     }
 
     .title {
-      font-size: clamp(17px, 3.5vw, 32px);
+      font-size: clamp(15px, 4vw, 24px);
       font-style: italic; font-weight: 600;
       color: #a8421e;
       text-shadow: 0 1px 4px rgba(255,255,255,0.8);
@@ -45,15 +45,15 @@
       flex-shrink: 0;
     }
 
-    /* 1. Pushpita & Sunflowers Trio Stage */
+    /* Pushpita Stage with 23 and 24 Flowers */
     .stage-center {
       position: relative;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: clamp(10px, 3vw, 45px);
+      gap: clamp(4px, 2vw, 18px);
       width: 100%;
-      max-width: 680px;
+      max-width: 440px;
       margin: auto 0;
       flex-shrink: 1;
     }
@@ -61,23 +61,38 @@
     .flower-side {
       display: flex; flex-direction: column; align-items: center;
       flex: 1;
-      max-width: clamp(70px, 15vw, 130px);
+      max-width: clamp(55px, 16vw, 90px);
     }
     .flower-svg { width: 100%; height: auto; }
 
-    /* Pushpita Box */
+    /* Flower Bubbles (Always Visible on Mobile & Desktop) */
+    .bubble {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 3px 6px;
+      border-radius: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(8px, 1.8vw, 11px);
+      font-weight: 700; color: #b73812;
+      border: 1px solid #ffcc80;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      display: block !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    .bubble-sad { color: #6d4c41; border-color: #bcaaa4; }
+
     .pushpita-box {
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      flex: 1.5;
-      max-width: clamp(130px, 24vw, 200px);
+      flex: 1.6;
+      max-width: clamp(110px, 30vw, 155px);
     }
 
     .pushpita-img {
       width: 100%; height: auto;
-      filter: drop-shadow(0 10px 22px rgba(180, 80, 20, 0.28));
+      filter: drop-shadow(0 8px 18px rgba(180, 80, 20, 0.25));
       animation: charFloat 3.5s ease-in-out infinite alternate;
       transform-origin: center bottom;
     }
@@ -86,49 +101,27 @@
       position: absolute;
       bottom: 0; width: 85%; aspect-ratio: 1/1;
       background: radial-gradient(circle, rgba(255, 179, 0, 0.45) 0%, rgba(255, 112, 67, 0) 70%);
-      border-radius: 50%; z-index: -1; filter: blur(14px);
+      border-radius: 50%; z-index: -1; filter: blur(12px);
     }
 
-    /* Speeech Bubbles (23 & 24) */
-    .flower-bubble {
-      background: rgba(255, 255, 255, 0.95);
-      padding: clamp(3px, 0.8vh, 6px) clamp(6px, 1.5vw, 12px);
-      border-radius: 12px;
-      font-size: clamp(9px, 1.8vw, 13px);
-      font-weight: 700;
-      margin-bottom: 6px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-      white-space: nowrap;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .bubble-sad {
-      color: #6d4c41;
-      border: 1px solid #bcaaa4;
-    }
-    .bubble-happy {
-      color: #b73812;
-      border: 1px solid #ffcc80;
-    }
-
-    /* Pushpita Interactive Bubble */
     .char-bubble {
       position: relative;
       background: #ffffff;
       border: 1.5px solid #ffb300;
       color: #bf360c;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: clamp(4px, 1vh, 8px) clamp(8px, 1.8vw, 15px);
-      border-radius: 14px;
-      font-size: clamp(10px, 1.9vw, 13px);
+      padding: 4px 9px;
+      border-radius: 12px;
+      font-size: clamp(9px, 2.3vw, 12px);
       font-weight: 700;
-      margin-bottom: 8px;
-      box-shadow: 0 4px 12px rgba(230, 81, 0, 0.16);
-      min-height: 28px;
+      margin-bottom: 5px;
+      box-shadow: 0 4px 10px rgba(230, 81, 0, 0.15);
+      min-height: 24px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      max-width: clamp(130px, 25vw, 200px);
+      max-width: 140px;
       line-height: 1.25;
       transition: all 0.25s ease;
       opacity: 0;
@@ -138,20 +131,20 @@
 
     .char-bubble::after {
       content: ''; position: absolute;
-      bottom: -6px; left: 50%; transform: translateX(-50%);
+      bottom: -5px; left: 50%; transform: translateX(-50%);
       width: 0; height: 0;
-      border-left: 6px solid transparent; border-right: 6px solid transparent;
-      border-top: 6px solid #ffffff;
+      border-left: 5px solid transparent; border-right: 5px solid transparent;
+      border-top: 5px solid #ffffff;
     }
 
-    /* 2. Countdown Grid (Center) */
+    /* Countdown Grid in Center Between Pushpita & Arnab */
     .countdown-grid {
       display: flex;
       justify-content: center;
-      gap: clamp(8px, 2vw, 20px);
+      gap: clamp(5px, 1.8vw, 12px);
       width: 100%;
-      max-width: 480px;
-      margin: 10px auto;
+      max-width: 400px;
+      margin: 6px auto;
       flex-shrink: 0;
     }
 
@@ -160,63 +153,52 @@
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.95);
-      padding: clamp(8px, 1.8vh, 16px) clamp(8px, 2vw, 16px);
-      border-radius: clamp(12px, 1.8vw, 16px);
-      box-shadow: 0 8px 22px -4px rgba(150, 60, 20, 0.15);
+      padding: clamp(6px, 1.2vh, 10px) clamp(4px, 1.2vw, 8px);
+      border-radius: 12px;
+      box-shadow: 0 6px 16px -4px rgba(150, 60, 20, 0.13);
       flex: 1;
-      max-width: 95px;
+      max-width: 80px;
       min-width: 0;
     }
     .time-num {
       font-family: 'Fraunces', Georgia, serif;
       font-weight: 900;
-      font-size: clamp(20px, 4.2vw, 36px);
+      font-size: clamp(18px, 4.8vw, 30px);
       color: #bf360c;
       line-height: 1;
     }
     .time-label {
-      font-size: clamp(9px, 1.6vw, 12px);
+      font-size: clamp(8px, 1.6vw, 10px);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       color: #795548;
-      margin-top: 4px;
+      margin-top: 3px;
       font-weight: 600;
     }
 
-    /* 3. Bottom Zone & Arnab */
+    /* Bottom Section: Arnab Left + Footer Safe */
     .bottom-zone {
       width: 100%;
-      max-width: 600px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .footer-note {
-      font-size: clamp(11px, 2vw, 15px);
-      font-style: italic;
-      color: #6d4c41;
-      margin-top: 4px;
-    }
-
-    /* Arnab Floating Mascot (Responsive Corner Placement) */
-    .arnab-anchor {
-      position: fixed;
-      bottom: clamp(6px, 1.5vh, 15px);
-      left: clamp(10px, 4vw, 50px);
-      z-index: 10;
+      max-width: 440px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      width: clamp(85px, 14vw, 150px);
-      pointer-events: none;
+      flex-shrink: 0;
+      margin-bottom: 2px;
+    }
+
+    .arnab-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: clamp(75px, 20vw, 105px);
+      margin-left: 6px;
+      margin-bottom: -4px;
     }
 
     .arnab-img {
       width: 100%; height: auto;
-      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.22));
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.22));
       animation: arnabFloat 3.8s ease-in-out infinite alternate;
     }
 
@@ -226,19 +208,19 @@
       border: 1.5px solid #0288d1;
       color: #01579b;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: clamp(5px, 1vh, 8px) clamp(8px, 1.6vw, 14px);
-      border-radius: 14px;
-      font-size: clamp(10px, 1.8vw, 13px);
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: clamp(9px, 2.2vw, 11px);
       font-weight: 700;
-      margin-bottom: 6px;
-      margin-left: 6px;
-      box-shadow: 0 4px 12px rgba(2, 136, 209, 0.18);
-      min-height: 26px;
+      margin-bottom: 4px;
+      margin-left: 2px;
+      box-shadow: 0 4px 10px rgba(2, 136, 209, 0.16);
+      min-height: 24px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       text-align: left;
-      max-width: clamp(130px, 24vw, 200px);
+      max-width: 150px;
       line-height: 1.25;
       transition: all 0.25s ease;
       opacity: 0;
@@ -248,30 +230,33 @@
 
     .arnab-bubble::after {
       content: ''; position: absolute;
-      bottom: -6px; left: 16px;
+      bottom: -5px; left: 14px;
       width: 0; height: 0;
-      border-left: 6px solid transparent; border-right: 6px solid transparent;
-      border-top: 6px solid #ffffff;
+      border-left: 5px solid transparent; border-right: 5px solid transparent;
+      border-top: 5px solid #ffffff;
+    }
+
+    .footer-note {
+      font-size: clamp(10px, 2.2vw, 12px);
+      font-style: italic;
+      color: #6d4c41;
+      width: 100%;
+      text-align: center;
+      margin-top: 2px;
     }
 
     /* Animations */
     .char-talking { animation: talkBounce 0.35s ease-in-out infinite alternate !important; }
     @keyframes talkBounce { 0% { transform: scale(1); } 100% { transform: scale(1.05) translateY(-2px); } }
-    @keyframes charFloat { 0% { transform: translateY(0); } 100% { transform: translateY(-6px); } }
-    @keyframes arnabFloat { 0% { transform: translateY(0); } 100% { transform: translateY(-5px); } }
+    @keyframes charFloat { 0% { transform: translateY(0); } 100% { transform: translateY(-4px); } }
+    @keyframes arnabFloat { 0% { transform: translateY(0); } 100% { transform: translateY(-3px); } }
 
     .flower-23 { animation: sadFloat 3s ease-in-out infinite alternate; }
-    @keyframes sadFloat { 0% { transform: translateY(0) rotate(-2deg); } 100% { transform: translateY(4px) rotate(-4deg); } }
+    @keyframes sadFloat { 0% { transform: translateY(0) rotate(-2deg); } 100% { transform: translateY(3px) rotate(-3deg); } }
     .flower-24 { animation: happyBounce 2.5s ease-in-out infinite alternate; }
-    @keyframes happyBounce { 0% { transform: translateY(0) rotate(2deg); } 100% { transform: translateY(-6px) rotate(-2deg); } }
+    @keyframes happyBounce { 0% { transform: translateY(0) rotate(2deg); } 100% { transform: translateY(-4px) rotate(-2deg); } }
     .waving-arm-24 { transform-origin: 36px 12px; animation: waveBye 1s ease-in-out infinite alternate; }
     @keyframes waveBye { 0% { transform: rotate(-10deg); } 100% { transform: rotate(30deg); } }
-
-    @media (max-width: 480px) {
-      .flower-bubble { display: none; } /* Ultra-small screen safety */
-      .arnab-bubble { max-width: 130px; font-size: 10px; }
-      .char-bubble { max-width: 125px; font-size: 10px; }
-    }
   </style>
 </head>
 <body>
@@ -281,11 +266,11 @@
   <div class="app-viewport">
     <h1 class="title">🌻 Counting Down to Pushpita's Special Day 🌻</h1>
 
-    <!-- 1. Pushpita, 23 & 24 Flowers Stage -->
+    <!-- Pushpita & Flowers -->
     <div class="stage-center">
       <!-- 23 Sunflower -->
       <div class="flower-side flower-23">
-        <div class="flower-bubble bubble-sad">যেতে চাই না... 🥺</div>
+        <div class="bubble bubble-sad">যেতে চাই না... 🥺</div>
         <svg class="flower-svg" viewBox="0 0 180 180">
           <g transform="translate(90,90)">
             <g fill="#ffa000" opacity="0.85">
@@ -330,7 +315,7 @@
 
       <!-- 24 Sunflower -->
       <div class="flower-side flower-24">
-        <div class="flower-bubble bubble-happy">বিদায় ২৩! 👋✨</div>
+        <div class="bubble">বিদায় ২৩! 👋✨</div>
         <svg class="flower-svg" viewBox="0 0 180 180">
           <g transform="translate(90,90)">
             <g class="waving-arm-24">
@@ -359,7 +344,7 @@
       </div>
     </div>
 
-    <!-- 2. Countdown Grid (Dujon-er Thik Majhe) -->
+    <!-- Countdown Grid in Center -->
     <div class="countdown-grid">
       <div class="time-card"><div class="time-num" id="d">00</div><div class="time-label">Days</div></div>
       <div class="time-card"><div class="time-num" id="h">00</div><div class="time-label">Hours</div></div>
@@ -367,21 +352,19 @@
       <div class="time-card"><div class="time-num" id="s">00</div><div class="time-label">Secs</div></div>
     </div>
 
-    <!-- 3. Bottom Zone & Footer Note -->
+    <!-- Arnab Niche Bame & Footer -->
     <div class="bottom-zone">
+      <div class="arnab-container">
+        <div class="arnab-bubble" id="arnabBubble">...</div>
+        <img src="media/arnab-character.png" alt="Arnab" class="arnab-img" id="arnabImg" />
+      </div>
       <p class="footer-note">✦ The grand celebration begins on 14th October, 12:00 AM 🎂 ✦</p>
     </div>
   </div>
 
-  <!-- 4. Arnab Mascot (Bottom Left Corner) -->
-  <div class="arnab-anchor">
-    <div class="arnab-bubble" id="arnabBubble">...</div>
-    <img src="media/arnab-character.png" alt="Arnab" class="arnab-img" id="arnabImg" />
-  </div>
-
   <script type="module" src="./main.js"></script>
 
-  <!-- Interactive Dual Conversation Engine -->
+  <!-- Dual Character Conversation Engine -->
   <script>
     const conversation = [
       {
